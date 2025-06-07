@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nonton YouTube</title>
+
+  <!-- Import Google Font: Oswald -->
+  <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex justify-center" style="font-family: 'Oswald', sans-serif;">
+  <div class="w-full max-w-md">
+
+    <!-- Judul Halaman -->
+    <header class="bg-black text-white text-center py-6 text-3xl font-bold">
+      Soul Land 2 <br> The Peerless Tang Clan
+    </header>
+
+    <!-- Preview Video -->
+    <div class="flex justify-center bg-white py-6">
+      <iframe id="videoPreview" class="w-11/12 md:w-3/4 aspect-video rounded shadow-lg"
+              src="https://www.youtube.com/embed/abc123" allowfullscreen></iframe>
+    </div>
+
+    <!-- Judul Film -->
+    <div id="filmTitle" class="text-center bg-purple-500 text-white py-3 text-xl font-semibold">
+      Pilih Video di Bawah Ini
+    </div>
+
+    <!-- Kolom Pencarian -->
+    <div class="bg-yellow-400 py-5 px-4 text-center">
+      <input type="text" id="searchInput" placeholder="Cari video..."
+             class="w-full md:w-1/2 px-4 py-2 rounded border border-gray-300"
+             oninput="searchFilm()">
+    </div>
+
+<!-- Tombol untuk scroll ke video tertentu -->
+<button onclick="scrollToFilm('Episode 104')" class="mt-3 bg-red-600 hover:bg-red-700 text-white text-sm px-3 py-1 rounded">
+  Episode Terbaru...!
+</button>
+
+    <!-- Daftar Film -->
+    <div id="filmGrid" class="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-3 gap-4 p-6">
+      <!-- Diisi dari JS -->
+    </div>
+
+    <!-- Pagination -->
+    <div class="flex justify-center items-center gap-4 pb-10">
+      <button onclick="prevPage()" class="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded">
+        Sebelumnya
+      </button>
+      <span id="pageInfo" class="font-semibold text-gray-700"></span>
+      <button onclick="nextPage()" class="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded">
+        Berikutnya
+      </button>
+    </div>
+
+    <script>
+      const films = [
+        {
+          title: "Episode 102",
+          trailer: "https://www.youtube.com/embed/UC1rvixaW5Y"
+        },
+        {
+          title: "Episode 103",
+          trailer: "https://www.youtube.com/embed/Dw7b7d9bDhs"
+        },
+        {
+          title: "Episode 104",
+          trailer: "https://www.youtube.com/embed/_yNX2IkfsI0"
+        },
+        // Tambahkan video lainnya di sini
+      ];
+
+      const itemsPerPage = 3;
+      let currentPage = 1;
+      let filteredFilms = [...films];
+
+      const filmGrid = document.getElementById("filmGrid");
+      const videoPreview = document.getElementById("videoPreview");
+      const filmTitle = document.getElementById("filmTitle");
+      const pageInfo = document.getElementById("pageInfo");
+
+      function updatePaginationInfo() {
+        const totalPages = Math.ceil(filteredFilms.length / itemsPerPage);
+        pageInfo.textContent = `Halaman ${currentPage} dari ${totalPages}`;
+      }
+
+      function loadFilms() {
+        filmGrid.innerHTML = "";
+        const start = (currentPage - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+        const pageFilms = filteredFilms.slice(start, end);
+
+        pageFilms.forEach(film => {
+          const card = document.createElement("div");
+          card.className = "bg-blue-600 text-white rounded overflow-hidden shadow-md cursor-pointer hover:bg-blue-700 transition";
+
+          const videoId = film.trailer.split("/embed/")[1];
+          const thumbnail = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+
+          card.innerHTML = `
+            <img src="${thumbnail}" alt="${film.title}" class="w-full aspect-video object-cover">
+          `;
+
+          card.onclick = () => {
+            filmTitle.textContent = film.title;
+            videoPreview.src = film.trailer;
+          };
+
+          filmGrid.appendChild(card);
+        });
+
+        updatePaginationInfo();
+      }
+
+      function nextPage() {
+        const totalPages = Math.ceil(filteredFilms.length / itemsPerPage);
+        if (currentPage < totalPages) {
+          currentPage++;
+          loadFilms();
+        }
+      }
+
+      function prevPage() {
+        if (currentPage > 1) {
+          currentPage--;
+          loadFilms();
+        }
+      }
+
+      function searchFilm() {
+        const keyword = document.getElementById("searchInput").value.toLowerCase();
+        filteredFilms = films.filter(f => f.title.toLowerCase().includes(keyword));
+        currentPage = 1;
+        loadFilms();
+      }
+
+      loadFilms();
+
+function scrollToFilm(judulFilm) {
+  const index = filteredFilms.findIndex(f => f.title === judulFilm);
+  if (index === -1) return;
+
+  const targetPage = Math.floor(index / itemsPerPage) + 1;
+  currentPage = targetPage;
+  loadFilms();
+
+  // Delay untuk tunggu elemen muncul di DOM
+  setTimeout(() => {
+    const cards = filmGrid.querySelectorAll("div");
+    const cardIndexOnPage = index % itemsPerPage;
+    if (cards[cardIndexOnPage]) {
+      cards[cardIndexOnPage].scrollIntoView({ behavior: "smooth", block: "center" });
+      cards[cardIndexOnPage].classList.add("ring-4", "ring-yellow-400");
+      setTimeout(() => {
+        cards[cardIndexOnPage].classList.remove("ring-4", "ring-yellow-400");
+      }, 1000);
+    }
+  }, 100);
+}
+    </script>
+  </div>
+</body>
+</html>
