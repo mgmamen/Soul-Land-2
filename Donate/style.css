@@ -1,0 +1,54 @@
+/* Tombol Trigger */
+#donateToggle {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  background-color: #8f0054;
+  color: white;
+  padding: 8px 12px;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  cursor: pointer;
+  font-family: sans-serif;
+  z-index: 9999;
+}
+
+/* Panel Donasi */
+#donatePanel {
+  position: fixed;
+  top: 50%;
+  right: -300px;
+  transform: translateY(-50%);
+  width: 260px;
+  background-color: #fff;
+  color: #000;
+  padding: 20px;
+  border-radius: 12px 0 0 12px;
+  box-shadow: -2px 2px 10px rgba(0,0,0,0.2);
+  transition: right 0.3s ease;
+  font-family: sans-serif;
+  z-index: 9999;
+}
+
+/* Tombol Close */
+#closeDonate {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* Tombol Link Donasi */
+#donatePanel a {
+  display: inline-block;
+  margin-top: 12px;
+  background-color: #8f0054;
+  color: white;
+  padding: 10px 16px;
+  text-align: center;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+}
