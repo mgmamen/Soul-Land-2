@@ -11,7 +11,7 @@
   <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="flex justify-center" style="background-color: #26282a; color:#ffffff; font-family: 'Oswald', sans-serif;">
+<body style="background-image: linear-gradient(to bottom, #330066, #000000); color: #ffffff; font-family: 'Oswald', sans-serif;" class="flex justify-center">
   <div class="w-full max-w-md">
 
     <!-- Judul Halaman -->
@@ -27,19 +27,20 @@
 
     <!-- Judul Film -->
 <div id="filmTitle" class="text-center text-white py-3 text-xl font-semibold"
-     style="background-color: #000066;">
+     style="background-color: rgba(0, 0, 102, 0.2);">
   Pilih Video di Bawah Ini
 </div>
 
     <!-- Kolom Pencarian -->
-    <div style="background-color: #330066;" class="py-5 px-4 text-center">
+    <div style="background-color: rgba(0, 0, 0, 0.2);" class="py-5 px-4 text-center">
 <input
   type="text"
   id="searchInput"
   placeholder="Ketik episode yang kamu cari disini..."
   class="w-full md:w-1/2 px-4 py-2 rounded border"
   style="background-color: #000000; color: #ffffff; border-color: #888888;"
-  oninput="searchFilm()">    </div>
+  oninput="searchFilm()">
+    </div>
 
 <!-- Tombol untuk scroll ke video tertentu -->
 <button onclick="scrollToFilm('Episode 104')" class="mt-3 bg-red-600 hover:bg-red-700 text-white text-sm px-3 py-1 rounded">
@@ -93,12 +94,16 @@
 
     pageFilms.forEach(film => {
       const card = document.createElement("div");
-      card.className = "bg-blue-600 text-white rounded overflow-hidden shadow-md cursor-pointer hover:bg-blue-700 transition";
+card.className = "text-white rounded overflow-hidden shadow-md cursor-pointer hover:opacity-90 transition";
+card.style.backgroundImage = "linear-gradient(to right, #0066ff, #ff00ff)";
 
       const videoId = film.trailer.split("/embed/")[1];
       const thumbnail = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
 
-      card.innerHTML = `<img src="${thumbnail}" alt="${film.title}" class="w-full aspect-video object-cover">`;
+      card.innerHTML = `
+  <img src="${thumbnail}" alt="${film.title}" class="w-full aspect-video object-cover">
+  <p class="text-center text-sm px-1 py-1 truncate">${film.title.length > 12 ? film.title.slice(0, 12) + '…' : film.title}</p>
+`;
 
       card.onclick = () => {
         filmTitle.textContent = film.title;
