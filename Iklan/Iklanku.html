@@ -1,0 +1,155 @@
+<!DOCTYPE html><html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iklan Otomatis Berdasarkan Minat</title>
+  <style>
+    body {
+      background: black;
+      color: white;
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+    }.iklan-container {
+  margin: 20px auto;
+  width: 100%;
+  max-width: 500px;
+  height: 90px;
+  border-radius: 20px;
+  padding: 10px;
+  background: linear-gradient(to right, blue, purple);
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+
+.slider {
+  display: flex;
+  animation: scroll 20s linear infinite;
+}
+
+@keyframes scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.produk {
+  width: 90px;
+  margin: 1px;
+  height: 100%;
+  background: white;
+  border-radius: 5px;
+  color: black;
+  text-align: center;
+  position: relative;
+}
+
+.produk img {
+  width: 100%;
+  height: 70%;
+  object-fit: cover;
+  border-radius: 5px 5px 0 0;
+}
+
+.harga {
+  position: absolute;
+  bottom: 30px;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-size: 14px;
+  padding: 2px;
+}
+
+.nama-produk {
+  font-size: 13px;
+  padding: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+  </style>
+</head>
+<body> 
+<!-- Kontainer Iklan -->  <div class="iklan-container">
+    <div class="slider" id="produk-slider">
+      <!-- Produk akan di-generate lewat JS -->
+    </div>
+  </div>  <script>
+    const ref = document.referrer.toLowerCase();
+
+    const minatList = {
+      gadget: ["samsung", "xiaomi", "iphone", "laptop", "earphone", "tablet", "android", "Infinix"],
+      fashion: ["baju", "celana", "hoodie", "kaos", "sepatu", "jaket"],
+      makanan: ["snack", "coklat", "mie", "kopi", "teh", "minuman"],
+    aksesoris: ["softcase", "hardcase", "charger", "tempered glass"]
+    };
+
+    const produkData = {
+      gadget: [
+        { nama: "Samsung Galaxy A06", harga: "Rp1.299.000", link: "https://s.shopee.co.id/4Ao8gGvf1g", gambar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLOvw4siY2oDlksD4ub_07pQ3a6WPYsUNUfTbVBFHS-G7HHvdxV9d2VIQ&s=10" },
+        { nama: "Samsung Galaxy A16", harga: "Rp2.669.000", link: "https://s.shopee.co.id/6AZD4UOQ56", gambar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDOlfva1EMRCXcjS94C27XqEOxnk6_KerF7eNKn0pgUC-Lv9FP60VehvQ&s=10" },
+        { nama: "Infinix Hot 40 Pro", harga: "Rp1.829.000", link: "https://s.shopee.co.id/3LF1iAz6vZ", gambar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUt6YyTSGpK7U7UZ73elMlPIE21jBMynkJIMD5wOEEdoU2AKjneEWhxyA&s=10" },
+      ],
+      fashion: [
+        { nama: "Kaos Polos", harga: "Rp50.000", link: "#", gambar: "https://via.placeholder.com/150x120?text=Kaos" },
+        { nama: "Jaket Tebal", harga: "Rp180.000", link: "#", gambar: "https://via.placeholder.com/150x120?text=Jaket" },
+        { nama: "Sepatu Keren", harga: "Rp300.000", link: "#", gambar: "https://via.placeholder.com/150x120?text=Sepatu" },
+      ],
+      makanan: [
+        { nama: "Mie Instan", harga: "Rp3.500", link: "#", gambar: "https://via.placeholder.com/150x120?text=Mie" },
+        { nama: "Coklat Manis", harga: "Rp12.000", link: "#", gambar: "https://via.placeholder.com/150x120?text=Coklat" },
+        { nama: "Kopi Hitam", harga: "Rp20.000", link: "#", gambar: "https://via.placeholder.com/150x120?text=Kopi" },
+      ],
+      umum: [
+        { nama: "Flare Pants", harga: "Rp25.000", link: "https://s.shopee.co.id/8Ux7sUTQxC", gambar: "https://down-id.img.susercontent.com/file/id-11134207-7rbkc-ma6y11enegmm49@resize_w1080_nl.webp" },
+        { nama: "MAYBELLINE SUNKISSER", harga: "Rp92.500", link: "https://s.shopee.co.id/10r6xAK0gq", gambar: "https://down-id.img.susercontent.com/file/id-11134207-7rbkc-mambwu6c2gbi3c@resize_w1080_nl.webp" },
+        { nama: "TWS M10 Wireless", harga: "Rp1.000.000", link: "https://s.shopee.co.id/6VC3VTphDO", gambar: "https://down-id.img.susercontent.com/file/id-11134207-7qukw-lizw57gnrjpy87.webp" },
+        { nama: "Samsung Galaxy A06", harga: "Rp1.299.000", link: "https://s.shopee.co.id/4Ao8gGvf1g", gambar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLOvw4siY2oDlksD4ub_07pQ3a6WPYsUNUfTbVBFHS-G7HHvdxV9d2VIQ&s=10" },
+        { nama: "Samsung Galaxy A16", harga: "Rp2.669.000", link: "https://s.shopee.co.id/6AZD4UOQ56", gambar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDOlfva1EMRCXcjS94C27XqEOxnk6_KerF7eNKn0pgUC-Lv9FP60VehvQ&s=10" },
+        { nama: "Infinix Hot 40 Pro", harga: "Rp1.829.000", link: "https://s.shopee.co.id/3LF1iAz6vZ", gambar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUt6YyTSGpK7U7UZ73elMlPIE21jBMynkJIMD5wOEEdoU2AKjneEWhxyA&s=10" },
+      ],
+      aksesoris: [
+        { nama: "Produk Promo", harga: "Rp99.000", link: "#", gambar: "https://down-id.img.susercontent.com/file/id-11134207-7rasi-m5b2yzyjj4r755@resize_w1080_nl.webp" },
+        { nama: "Diskon Menarik", harga: "Rp123.000", link: "#", gambar: "https://via.placeholder.com/150x120?text=Diskon" },
+        { nama: "Produk Viral", harga: "Rp1.000.000", link: "#", gambar: "https://via.placeholder.com/150x120?text=Viral" },
+      ]
+    };
+
+    let kategori = "umum";
+    for (const k in minatList) {
+      for (const keyword of minatList[k]) {
+        if (ref.includes(keyword)) {
+          kategori = k;
+          break;
+        }
+      }
+      if (kategori !== "umum") break;
+    }
+
+    const produkTampil = produkData[kategori];
+    const slider = document.getElementById("produk-slider");
+
+    // Duplikat agar bisa infinite loop scroll
+    const allProduk = [...produkTampil, ...produkTampil];
+
+    for (const produk of allProduk) {
+      const div = document.createElement("div");
+      div.className = "produk";
+      div.innerHTML = `
+        <a href="${produk.link}" target="_blank">
+          <img src="${produk.gambar}" alt="${produk.nama}">
+          <div class="harga">${produk.harga}</div>
+        </a>
+        <div class="nama-produk">${produk.nama}</div>
+      `;
+      slider.appendChild(div);
+    }
+  </script>
+
+
+
+</body>
+</html>
