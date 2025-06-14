@@ -93,7 +93,7 @@
     let htmlGabungan = '';
     for (const k of kategoris) {
       try {
-        const res = await fetch(`produk/${k}.html`);
+        const res = await fetch(`Produk/${k}.html`);
         const html = await res.text();
         htmlGabungan += html;
       } catch (err) {
@@ -104,7 +104,7 @@
   }
 
   if (kategori === "umum") {
-    gabungKategori(["gadget"]);
+    gabungKategori(["gadget", "umum"]);
   } else {
     fetch(`produk/${kategori}.html`)
       .then(res => res.text())
