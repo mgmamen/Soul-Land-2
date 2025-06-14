@@ -1,1 +1,120 @@
 
+<!-- File: index.html --><!DOCTYPE html><html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iklan Otomatis Berdasarkan Minat</title>
+  <style>
+    body {
+      background: black;
+      color: white;
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+    }.iklan-container {
+  margin: 20px auto;
+  width: 100%;
+  max-width: 500px;
+  height: 130px;
+  border-radius: 20px;
+  padding: 5px;
+  background: linear-gradient(to right, blue, purple);
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+
+.slider {
+  display: flex;
+  animation: scroll 20s linear infinite;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.produk {
+  width: 90px;
+  margin: 2px;
+  height: 100%;
+  background: white;
+  border-radius: 5px;
+  color: black;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.produk img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 5px 5px 0 0;
+}
+
+.harga {
+  font-size: 14px;
+  padding-top: 3px;
+}
+
+.nama-produk {
+  font-size: 13px;
+  padding: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+  </style>
+</head>
+<body>
+  <div class="iklan-container">
+    <div class="slider" id="produk-slider">
+      <!-- Konten produk akan di-load dari file terpisah -->
+    </div>
+  </div> <script>
+  const ref = document.referrer.toLowerCase();
+  const kategoriList = ["gadget", "fashion", "makanan", "aksesoris"];
+  let kategori = "umum";
+
+  for (const k of kategoriList) {
+    if (ref.includes(k)) {
+      kategori = k;
+      break;
+    }
+  }
+
+  async function gabungKategori(kategoris) {
+    let htmlGabungan = '';
+    for (const k of kategoris) {
+      try {
+        const res = await fetch(`produk/${k}.html`);
+        const html = await res.text();
+        htmlGabungan += html;
+      } catch (err) {
+        console.warn(`Gagal ambil produk ${k}:`, err);
+      }
+    }
+    document.getElementById("produk-slider").innerHTML = htmlGabungan + htmlGabungan;
+  }
+
+  if (kategori === "umum") {
+    gabungKategori(["gadget"]);
+  } else {
+    fetch(`produk/${kategori}.html`)
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById("produk-slider").innerHTML = html + html;
+      })
+      .catch(err => {
+        console.error("Gagal load produk:", err);
+      });
+  }
+</script>
+</body>
+</html>
