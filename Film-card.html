@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Alur Cerita Donghua</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body style="background-image: linear-gradient(to bottom, #330066, #000000); color: #ffffff; font-family: 'Oswald', sans-serif;" class="flex justify-center">
+  <div class="w-full max-w-md">
+  	
+  <h1 class="text-2xl font-bold text-center mb-4">🎬 Alur Cerita Donghua (WP)</h1>
+
+    <div id="filmContainer" class="grid grid-cols-2 gap-4">
+      <!-- Kartu-kartu akan muncul di sini lewat JS -->
+    </div>
+
+    <!-- Navigasi Halaman -->
+    <div class="flex justify-center items-center gap-4 mt-6">
+      <button onclick="prevPage()" class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded">Sebelumnya</button>
+      <span id="pageInfo" class="font-semibold text-white"></span>
+      <button onclick="nextPage()" class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded">Berikutnya</button>
+    </div>
+  </div>
+
+  <script>
+    const films = [
+      { title: "Honor of King: Destiny Arc", link: "Alur Cerita/Honor of King Destiny arc.html", thumbnail: "BZvuK1uNtts" },
+      { title: "Soul Land 2: The Peerless Tang Clan", link: "Alur Cerita/Soul Land 2.html", thumbnail: "Dw7b7d9bDhs" },
+    ];
+
+    const itemsPerPage = 6;
+    let currentPage = 1;
+
+    function loadFilms() {
+      const container = document.getElementById("filmContainer");
+      container.innerHTML = "";
+
+      const start = (currentPage - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+      const pageFilms = films.slice(start, end);
+
+      pageFilms.forEach(film => {
+        const card = document.createElement("a");
+        card.href = film.link;
+        card.target = "_blank";
+        card.className = "block overflow-hidden rounded-xl shadow-lg transform hover:scale-105 transition duration-300";
+        card.style.backgroundImage = "linear-gradient(to right, #1e3a8a, #8b5cf6)";
+
+        card.innerHTML = `
+          <div class="w-full aspect-video bg-black">
+            <img src="https://img.youtube.com/vi/${film.thumbnail}/hqdefault.jpg" alt="${film.title}" class="w-full h-full object-cover rounded-t-xl">
+          </div>
+          <div class="p-3 text-sm font-semibold text-white text-center">${film.title}</div>
+        `;
+
+        container.appendChild(card);
+      });
+
+      const pageInfo = document.getElementById("pageInfo");
+      const totalPages = Math.ceil(films.length / itemsPerPage);
+      pageInfo.textContent = `Halaman ${currentPage} dari ${totalPages}`;
+    }
+
+    function nextPage() {
+      const totalPages = Math.ceil(films.length / itemsPerPage);
+      if (currentPage < totalPages) {
+        currentPage++;
+        loadFilms();
+      }
+    }
+
+    function prevPage() {
+      if (currentPage > 1) {
+        currentPage--;
+        loadFilms();
+      }
+    }
+
+    loadFilms();
+  </script>
+</body>
+</html>

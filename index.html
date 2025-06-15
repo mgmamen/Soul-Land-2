@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>LinkTree Mobile Style</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(to bottom, #e0e0ff, #f5f5ff);
+      color: #333;
+      max-width: 480px;
+      margin: auto; /* Biar di desktop tetap kayak tampilan HP */
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .page {
+      display: none;
+      padding: 40px 20px;
+      min-height: 100vh;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1, h2 {
+      font-size: 22px;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    p {
+      font-size: 16px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .menu-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .btn {
+      width: 90%;
+      max-width: 400px;
+      margin: 10px 0;
+      padding: 15px;
+      font-size: 17px;
+      font-weight: bold;
+      background: linear-gradient(135deg, #6a5acd, #8a2be2);
+      color: white;
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 16px rgba(0,0,0,0.15);
+    }
+
+    /* Agar tidak melebar di desktop */
+    html {
+      background: #ddd;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Halaman 1: Menu -->
+  <div id="page1" class="page active">
+    <h1>Selamat Datang 👋</h1>
+    <p>Pilih menu di bawah ini:</p>
+    <div class="menu-container">
+      <button class="btn" onclick="showPage(2)">📄 Halaman 2</button>
+      <button class="btn" onclick="showPage(3)">📄 Halaman 3</button>
+      <button class="btn" onclick="showPage(4)">📄 Halaman 4</button>
+      <button class="btn" onclick="showPage(5)">📄 Halaman 5</button>
+    </div>
+  </div>
+
+  <!-- Halaman 2 -->
+  <div id="page2" class="page">
+    <h2>Halaman 2</h2>
+    <p>Ini adalah konten untuk halaman kedua.</p>
+    <button class="btn" onclick="showPage(1)">⬅ Kembali</button>
+  </div>
+
+  <!-- Halaman 3 -->
+  <div id="page3" class="page">
+    <h2>Halaman 3</h2>
+    <p>Bisa kamu isi dengan link media sosial atau informasi lain.</p>
+    <button class="btn" onclick="showPage(1)">⬅ Kembali</button>
+  </div>
+
+  <!-- Halaman 4 -->
+  <div id="page4" class="page">
+    <h2>Halaman 4</h2>
+    <p>Cocok untuk portofolio, galeri, atau katalog produk.</p>
+    <button class="btn" onclick="showPage(1)">⬅ Kembali</button>
+  </div>
+
+  <!-- Halaman 5 -->
+  <div id="page5" class="page">
+    <h2>Halaman 5</h2>
+    <p>Kamu juga bisa pakai halaman ini untuk kontak langsung.</p>
+    <button class="btn" onclick="showPage(1)">⬅ Kembali</button>
+  </div>
+
+  <script>
+    function showPage(pageNumber) {
+      const pages = document.querySelectorAll('.page');
+      pages.forEach(p => p.classList.remove('active'));
+      document.getElementById('page' + pageNumber).classList.add('active');
+      window.scrollTo(0, 0);
+    }
+  </script>
+
+</body>
+</html>
